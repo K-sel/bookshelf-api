@@ -25,7 +25,7 @@ export async function queryById(id: string) {
   try {
     client = await dbConnect();
 
-    const results = await client.query(`SELECT * FROM books WHERE id = ${id}`);
+    const results = await client.query(`SELECT * FROM books WHERE id = ?`, [id]);
     client.close();
 
     return results;
