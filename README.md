@@ -63,12 +63,18 @@ interface Book {
 ```
 
 ## 🚧 Statut du Projet
-
 Ce projet est actuellement **en développement actif**. De nouvelles fonctionnalités sont régulièrement ajoutées et l'architecture est constamment améliorée.
 
 ## 📝 Changelog
 
-### v0.1.0 (Current)
+### v0.2.0 (Current)
+- ✅ Route POST `/books` pour ajouter un livre
+- ✅ Validation des données entrantes pour les nouveaux livres
+- ✅ Amélioration de la gestion des erreurs avec messages détaillés
+- ✅ Utilisation de requêtes préparées pour prévenir les injections SQL
+- ✅ Refactoring de l'architecture pour une meilleure séparation des responsabilités
+
+### v0.1.0
 - ✅ Mise en place de la structure de base du projet
 - ✅ Connexion à la base de données MySQL configurée
 - ✅ Middleware de logging des requêtes (requestLogger) implémenté
@@ -77,11 +83,11 @@ Ce projet est actuellement **en développement actif**. De nouvelles fonctionnal
 - ✅ Méthode `queryAll` pour interroger la base de données
 
 ### À venir
-- ⏳ Route POST pour ajouter un livre
 - ⏳ Routes PUT/DELETE pour modifier/supprimer un livre
 - ⏳ Filtrage des livres par statut
-- ⏳ Validation des données entrantes
 - ⏳ Tests automatisés
+- ⏳ Documentation de l'API avec Swagger
+- ⏳ Mise en place d'un système d'authentification
 
 ## 🔍 Ce que j'ai appris
 
