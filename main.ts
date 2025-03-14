@@ -1,7 +1,6 @@
 // @ts-types="npm:@types/express@4.17.15"
 import express, { Request, Response } from "express";
-import booksGetRouter from "./routes/GET_books.ts";
-import booksPostRouter from "./routes/POST_books.ts";
+import booksRoutes from "./routes/booksRoutes.ts";
 import reqLogger from "./middlewares/reqLogger.ts";
 
 // Init
@@ -16,8 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(reqLogger);
 
 // Routes
-app.use("/books", booksGetRouter)
-app.use("/books", booksPostRouter)
+app.use("/books", booksRoutes)
+
 
 // Landing
 app.get("/", (_req: Request, res: Response) => {
