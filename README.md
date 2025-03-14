@@ -44,7 +44,6 @@ Chaque réponse de l'API est formatée de manière cohérente pour faciliter l'i
 {
   "data": { /* Les données demandées */ },
   "message": "Description de la réponse",
-  "api": "API by K-sel !"
 }
 ```
 
@@ -71,7 +70,7 @@ Ce projet est actuellement **en développement actif**. De nouvelles fonctionnal
 
 ### v0.1.0 (Current)
 - ✅ Mise en place de la structure de base du projet
-- ✅ Connexion à la base de données SQLite configurée
+- ✅ Connexion à la base de données MySQL configurée
 - ✅ Middleware de logging des requêtes (requestLogger) implémenté
 - ✅ Route GET `/books` pour récupérer tous les livres
 - ✅ Route GET `/books/:id` pour récupérer un livre spécifique
