@@ -38,14 +38,37 @@ L'utilisation du modèle RESTful avec des réponses bien structurées et des cod
 - `PUT /books/:id` - Mettre à jour un livre existant
 - `DELETE /books/:id` - Supprimer un livre
 
-Chaque réponse de l'API est formatée de manière cohérente pour faciliter l'intégration:
+## 📊 Format des Réponses API
+
+Toutes les réponses de l'API suivent une structure cohérente pour faciliter l'intégration:
+
+### Réponses avec succès:
 
 ```json
 {
+  "success": true,
   "data": { /* Les données demandées */ },
-  "message": "Description de la réponse",
+  "message": "Description de l'opération réussie"
 }
 ```
+
+### Réponses d'erreur:
+
+```json
+{
+  "success": false,
+  "message": "Description courte de l'erreur",
+  "error": "Détails supplémentaires sur l'erreur"
+}
+```
+
+### Codes HTTP utilisés:
+
+- `200` - Requête traitée avec succès (GET, PUT)
+- `201` - Ressource créée avec succès (POST)
+- `400` - Requête incorrecte (validation échouée)
+- `404` - Ressource non trouvée
+- `500` - Erreur serveur interne
 
 ## 📋 Structure des Données
 
@@ -92,7 +115,5 @@ Ce projet est actuellement **en développement actif**. De nouvelles fonctionnal
 ## 🔍 Ce que j'ai appris
 
 Ce projet m'a permis d'approfondir ma compréhension des systèmes d'API modernes et des pratiques de sécurité en développement. J'ai particulièrement apprécié la découverte de l'écosystème Deno et son approche "sécurité par défaut", ainsi que l'application des principes REST pour créer une API cohérente et intuitive.
-
----
 
 Développé avec 💙 par K-sel
