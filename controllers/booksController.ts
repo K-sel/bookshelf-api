@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import {
   queryBooks,
   insertBook,
+  queryBooksStatus,
 } from "../database/repositories/bookRepository.ts";
 import { Book } from "../interfaces/IBook.ts";
 
@@ -65,6 +66,45 @@ export const booksController = {
       res.status(500).json({
         success: false,
         message: "Erreur lors de la récupération des livres",
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
+  },
+
+  getBookByStatus: async (req: Request, res: Response): Promise<void> => {
+    try {
+      const status = String(req.params.status);
+
+      // Controle que l'id est présent sinon, fin de la fonction et renvoi de l'erreur au client
+      if (!status) {
+        res.status(400).json({
+          success: false,
+          message: "Statut de lecture du livre non valide",
+          error: `Le statut doit être soit "read" soit "to-read" soit "pending".`,
+        });
+        return;
+      }
+
+      // ID présent -> Query la DB pour récupérer la valeur
+      const book = await queryBooksStatus(status);
+
+      if (!book || book.length === 0) {
+        res.status(404).json({
+          success: false,
+          message: "Livre non trouvé",
+          error: `Vous n'avez aucun livre avec le statut : ${status}`,
+        });
+      } else { 
+        res.status(200).json({
+          success: true,
+          data: book, // Puisque queryById renvoie un tableau
+          message: "Livre(s) récupéré(s) avec succès",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Erreur lors de la récupération du/des livre(s).",
         error: error instanceof Error ? error.message : String(error),
       });
     }

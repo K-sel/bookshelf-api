@@ -35,6 +35,22 @@ export async function queryBooks(_id: string | null = null) {
   }
 }
 
+export async function queryBooksStatus(status: string) {
+  let client: Client | null = null;
+
+  try {
+    client = await dbConnect();
+
+    const results =  await client.query(`SELECT * FROM books WHERE status = ?`, [status]);
+    console.log(results);
+    client.close();
+    return results;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 /**
  * Insère un nouveau livre dans la base de données.
  * 
