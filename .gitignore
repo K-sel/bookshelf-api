@@ -50,7 +50,6 @@ dist-ssr
 !/config/default.json
 
 # MySQL
-*.sql
 *.dump
 /data/
 
