@@ -38,9 +38,10 @@ L'utilisation du modèle RESTful avec des réponses bien structurées et des cod
 
 - `GET /books` - Récupérer la liste complète des livres
 - `GET /books/:id` - Récupérer un livre spécifique par son ID
+- `GET /books/status/:status` - Récupérer tous les livres avec un statut spécifique
 - `POST /books` - Ajouter un nouveau livre
-- `PUT /books/:id` - Mettre à jour un livre existant
-- `DELETE /books/:id` - Supprimer un livre
+- `PATCH /books/:id` - Mettre à jour le statut d'un livre existant
+- `DELETE /books/:id` - Supprimer un livre (à venir)
 
 ## 📊 Format des Réponses API
 
@@ -68,10 +69,12 @@ Toutes les réponses de l'API suivent une structure cohérente pour faciliter l'
 
 ### Codes HTTP utilisés:
 
-- `200` - Requête traitée avec succès (GET, PUT)
+- `200` - Requête traitée avec succès (GET)
 - `201` - Ressource créée avec succès (POST)
+- `204` - Requête traitée avec succès, pas de contenu retourné (PATCH)
 - `400` - Requête incorrecte (validation échouée)
 - `404` - Ressource non trouvée
+- `409` - Conflit (par exemple, tentative de modification vers un statut identique)
 - `500` - Erreur serveur interne
 
 ## 📋 Structure des Données
@@ -94,7 +97,14 @@ Ce projet est actuellement **en développement actif**. De nouvelles fonctionnal
 
 ## 📝 Changelog
 
-### v0.2.0 (Current)
+### v0.3.0 (Current)
+- ✅ Route GET `/books/status/:status` pour filtrer les livres par statut
+- ✅ Route PATCH `/books/:id` pour mettre à jour le statut d'un livre
+- ✅ Validation améliorée des données et des paramètres & Ajout de middlewares de validation
+- ✅ Gestion des conflits avec le code 409 pour les mises à jour redondantes
+- ✅ Documentation technique complète des endpoints et des fonctions
+
+### v0.2.0
 - ✅ Route POST `/books` pour ajouter un livre
 - ✅ Validation des données entrantes pour les nouveaux livres
 - ✅ Amélioration de la gestion des erreurs avec messages détaillés
@@ -107,12 +117,9 @@ Ce projet est actuellement **en développement actif**. De nouvelles fonctionnal
 - ✅ Middleware de logging des requêtes (requestLogger) implémenté
 - ✅ Route GET `/books` pour récupérer tous les livres
 - ✅ Route GET `/books/:id` pour récupérer un livre spécifique
-- ✅ Méthode `queryAll` pour interroger la base de données
 
 ### À venir
-- ⏳ Routes PUT/DELETE pour modifier/supprimer un livre
-- ⏳ Filtrage des livres par statut
-- ⏳ Tests automatisés
+- ⏳ Route DELETE pour supprimer un livre
 - ⏳ Documentation de l'API avec Swagger
 - ⏳ Mise en place d'un système d'authentification
 
