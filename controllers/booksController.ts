@@ -4,13 +4,14 @@ import {
   queryBooks,
   insertBook,
   queryBooksStatus,
+  patchStatus,
 } from "../database/repositories/bookRepository.ts";
 import { Book } from "../interfaces/IBook.ts";
 
 /**
  * Contrôleur pour gérer les opérations CRUD sur les livres.
  * Fournit des méthodes pour récupérer, ajouter et rechercher des livres dans la base de données.
- * 
+ *
  * @module booksController
  */
 export const booksController = {
@@ -71,11 +72,32 @@ export const booksController = {
     }
   },
 
+  /**
+   * Récupère les livres en fonction de leur statut de lecture.
+   *
+   * @param req - L'objet Request contenant les paramètres de la requête HTTP
+   * @param res - L'objet Response pour envoyer la réponse HTTP
+   * @returns Promise<void> - Ne retourne rien directement, envoie la réponse via l'objet res
+   *
+   * @description
+   * Cette fonction extrait le statut de lecture depuis les paramètres de la requête,
+   * interroge la base de données pour trouver les livres correspondants et renvoie
+   * le résultat au client.
+   *
+   * Codes de statut HTTP:
+   * - 200: Succès, renvoie les livres trouvés
+   * - 400: Requête invalide (statut manquant)
+   * - 404: Aucun livre trouvé avec ce statut
+   * - 500: Erreur serveur lors du traitement de la requête
+   *
+   * @example
+   * // Exemple d'utilisation pour récupérer les livres avec statut "to-read"
+   * GET api/books/status/to-read
+   */
   getBookByStatus: async (req: Request, res: Response): Promise<void> => {
     try {
       const status = String(req.params.status);
 
-      // Controle que l'id est présent sinon, fin de la fonction et renvoi de l'erreur au client
       if (!status) {
         res.status(400).json({
           success: false,
@@ -85,7 +107,6 @@ export const booksController = {
         return;
       }
 
-      // ID présent -> Query la DB pour récupérer la valeur
       const book = await queryBooksStatus(status);
 
       if (!book || book.length === 0) {
@@ -94,7 +115,7 @@ export const booksController = {
           message: "Livre non trouvé",
           error: `Vous n'avez aucun livre avec le statut : ${status}`,
         });
-      } else { 
+      } else {
         res.status(200).json({
           success: true,
           data: book, // Puisque queryById renvoie un tableau
@@ -241,6 +262,72 @@ export const booksController = {
       res.status(statusCode).json({
         success: false,
         message: "Erreur lors de l'ajout du livre",
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
+  },
+
+
+  /**
+ * Met à jour le statut d'un livre existant.
+ * 
+ * @param req - L'objet Request contenant l'ID du livre dans les paramètres d'URL et le nouveau statut dans le corps de la requête
+ * @param res - L'objet Response pour envoyer la réponse HTTP
+ * @returns Promise<void> - Ne retourne rien directement, envoie la réponse via l'objet res
+ * 
+ * @description
+ * Cette fonction permet de modifier le statut de lecture d'un livre identifié par son ID.
+ * Elle vérifie d'abord l'existence du livre, puis si le nouveau statut est différent
+ * de l'actuel avant d'effectuer la modification.
+ * 
+ * La fonction attend un objet JSON dans le corps de la requête avec la propriété "status".
+ * 
+ * Codes de statut HTTP:
+ * - 204: Succès, le statut a été mis à jour (pas de contenu retourné)
+ * - 404: Livre non trouvé avec l'ID spécifié
+ * - 409: Conflit, le statut demandé est identique au statut actuel
+ * - 500: Erreur serveur lors du traitement de la requête
+ * 
+ * @example
+ * // Exemple de requête pour mettre à jour le statut d'un livre
+ * PATCH /api/books/123
+ * Content-Type: application/json
+ * 
+ * {
+ *   "status": "read"
+ * }
+ * 
+ * // Réponse en cas de succès: 204 No Content (sans corps)
+ */
+  updateStatus: async (req: Request, res: Response): Promise<void> => {
+    try {
+      const id = String(req.params.id);
+      const { status } = req.body;
+
+      const book = await queryBooks(id);
+      if (!book || book.length === 0) {
+        res.status(404).json({
+          success: false,
+          message: "Livre non trouvé",
+          error: `Aucun livre avec l'ID: ${id}`,
+        });
+      } else if (book[0].status === status) {
+        res.status(409).json({
+          success: false,
+          message:
+            "Le statut que vous essayez de mettre est déja le statut actuel",
+          error: "Impossible de modifier le statut",
+        });
+      } else {
+        // ID présent -> Query la DB pour modifier la valeurs
+        await patchStatus(id, status);
+        res.status(204).end();
+      }
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message:
+          "Erreur lors de la récupération du livre, veuillez vérifier l'ID.",
         error: error instanceof Error ? error.message : String(error),
       });
     }

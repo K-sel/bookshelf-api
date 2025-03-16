@@ -20,7 +20,7 @@ export function generateValidUUID(): string {
 export function instanceOfValidBookForDbStorage(
   object: ValidBookForDbStorage
 ): object is ValidBookForDbStorage {
-  return (
+  const validFields =  (
     object &&
     typeof object === "object" &&
     typeof object.id === "string" &&
@@ -30,4 +30,11 @@ export function instanceOfValidBookForDbStorage(
     typeof object.cover === "string" &&
     typeof object.summary === "string"
   );
+  // Vérifie qu'il n'y a pas de champs supplémentaires
+  const allowedKeys = ["id","title", "author", "status", "cover", "summary"];
+  const hasOnlyAllowedFields = Object.keys(object).every(key => 
+    allowedKeys.includes(key)
+  );
+    
+  return validFields && hasOnlyAllowedFields;
 }
