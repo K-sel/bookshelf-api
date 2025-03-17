@@ -41,7 +41,7 @@ L'utilisation du modèle RESTful avec des réponses bien structurées et des cod
 - `GET /books/status/:status` - Récupérer tous les livres avec un statut spécifique
 - `POST /books` - Ajouter un nouveau livre
 - `PATCH /books/:id` - Mettre à jour le statut d'un livre existant
-- `DELETE /books/:id` - Supprimer un livre (à venir)
+- `DELETE /books/:id` - Supprimer un livre
 
 ## 📊 Format des Réponses API
 
@@ -71,7 +71,7 @@ Toutes les réponses de l'API suivent une structure cohérente pour faciliter l'
 
 - `200` - Requête traitée avec succès (GET)
 - `201` - Ressource créée avec succès (POST)
-- `204` - Requête traitée avec succès, pas de contenu retourné (PATCH)
+- `204` - Requête traitée avec succès, pas de contenu retourné (PATCH, DELETE)
 - `400` - Requête incorrecte (validation échouée)
 - `404` - Ressource non trouvée
 - `409` - Conflit (par exemple, tentative de modification vers un statut identique)
@@ -93,11 +93,18 @@ interface Book {
 ```
 
 ## 🚧 Statut du Projet
-Ce projet est actuellement **en développement actif**. De nouvelles fonctionnalités sont régulièrement ajoutées et l'architecture est constamment améliorée.
+Ce projet est actuellement **en développement actif**. L'API de base est complète, et je travaille maintenant sur les fonctionnalités avancées et la sécurité.
 
 ## 📝 Changelog
 
-### v0.3.0 (Current)
+### v1.0.0 (Current)
+- ✅ Route DELETE `/books/:id` pour supprimer un livre
+- ✅ Documentation complète de toutes les fonctions et endpoints dans ce README.cd
+- ✅ API CRUD complète avec gestion robuste des erreurs
+- ✅ Implémentation des bonnes pratiques REST pour les codes de statut HTTP
+- ✅ Finalisation et stabilisation de l'architecture de base
+
+### v0.3.0
 - ✅ Route GET `/books/status/:status` pour filtrer les livres par statut
 - ✅ Route PATCH `/books/:id` pour mettre à jour le statut d'un livre
 - ✅ Validation améliorée des données et des paramètres & Ajout de middlewares de validation
@@ -118,10 +125,13 @@ Ce projet est actuellement **en développement actif**. De nouvelles fonctionnal
 - ✅ Route GET `/books` pour récupérer tous les livres
 - ✅ Route GET `/books/:id` pour récupérer un livre spécifique
 
-### À venir
-- ⏳ Route DELETE pour supprimer un livre
+### À venir (v2.0.0)
+- ⏳ Système d'authentification avec JWT
+- ⏳ Gestion des utilisateurs (inscription, connexion)
+- ⏳ Collections de livres par utilisateur
+- ⏳ Amélioration de la configuration CORS pour une meilleure sécurité
+- ⏳ Stockage sécurisé des tokens JWT en cookies HttpOnly
 - ⏳ Documentation de l'API avec Swagger
-- ⏳ Mise en place d'un système d'authentification
 
 ## 🔍 Ce que j'ai appris
 
