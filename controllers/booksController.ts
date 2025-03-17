@@ -267,38 +267,37 @@ export const booksController = {
     }
   },
 
-
   /**
- * Met à jour le statut d'un livre existant.
- * 
- * @param req - L'objet Request contenant l'ID du livre dans les paramètres d'URL et le nouveau statut dans le corps de la requête
- * @param res - L'objet Response pour envoyer la réponse HTTP
- * @returns Promise<void> - Ne retourne rien directement, envoie la réponse via l'objet res
- * 
- * @description
- * Cette fonction permet de modifier le statut de lecture d'un livre identifié par son ID.
- * Elle vérifie d'abord l'existence du livre, puis si le nouveau statut est différent
- * de l'actuel avant d'effectuer la modification.
- * 
- * La fonction attend un objet JSON dans le corps de la requête avec la propriété "status".
- * 
- * Codes de statut HTTP:
- * - 204: Succès, le statut a été mis à jour (pas de contenu retourné)
- * - 404: Livre non trouvé avec l'ID spécifié
- * - 409: Conflit, le statut demandé est identique au statut actuel
- * - 500: Erreur serveur lors du traitement de la requête
- * 
- * @example
- * // Exemple de requête pour mettre à jour le statut d'un livre
- * PATCH /api/books/123
- * Content-Type: application/json
- * 
- * {
- *   "status": "read"
- * }
- * 
- * // Réponse en cas de succès: 204 No Content (sans corps)
- */
+   * Met à jour le statut d'un livre existant.
+   *
+   * @param req - L'objet Request contenant l'ID du livre dans les paramètres d'URL et le nouveau statut dans le corps de la requête
+   * @param res - L'objet Response pour envoyer la réponse HTTP
+   * @returns Promise<void> - Ne retourne rien directement, envoie la réponse via l'objet res
+   *
+   * @description
+   * Cette fonction permet de modifier le statut de lecture d'un livre identifié par son ID.
+   * Elle vérifie d'abord l'existence du livre, puis si le nouveau statut est différent
+   * de l'actuel avant d'effectuer la modification.
+   *
+   * La fonction attend un objet JSON dans le corps de la requête avec la propriété "status".
+   *
+   * Codes de statut HTTP:
+   * - 204: Succès, le statut a été mis à jour (pas de contenu retourné)
+   * - 404: Livre non trouvé avec l'ID spécifié
+   * - 409: Conflit, le statut demandé est identique au statut actuel
+   * - 500: Erreur serveur lors du traitement de la requête
+   *
+   * @example
+   * // Exemple de requête pour mettre à jour le statut d'un livre
+   * PATCH /api/books/123
+   * Content-Type: application/json
+   *
+   * {
+   *   "status": "read"
+   * }
+   *
+   * // Réponse en cas de succès: 204 No Content (sans corps)
+   */
   updateStatus: async (req: Request, res: Response): Promise<void> => {
     try {
       const id = String(req.params.id);
