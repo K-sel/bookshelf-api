@@ -41,6 +41,14 @@ router.get("/status/:status", validateGetStatusParams, booksController.getBookBy
 router.patch("/:id", validatePatchRequestParams, validateGetStatusParams, booksController.updateStatus);
 
 /**
+ * @route DELETE /books/:id
+ * @desc Supprime un livre de la base de données
+ * @param {string} id - Identifiant du livre
+ * @status 204 Succès | 404 Non trouvé | 500 Erreur serveur
+ */
+router.delete("/:id", booksController.deleteBookById);
+
+/**
  * @route POST /books
  * @desc Ajoute un nouveau livre
  * @body {Object} livre - Données du livre (title, author, status, etc.)

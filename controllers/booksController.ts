@@ -5,6 +5,7 @@ import {
   insertBook,
   queryBooksStatus,
   patchStatus,
+  deleteBook,
 } from "../database/repositories/bookRepository.ts";
 import { Book } from "../interfaces/IBook.ts";
 
@@ -327,6 +328,49 @@ export const booksController = {
         success: false,
         message:
           "Erreur lors de la récupération du livre, veuillez vérifier l'ID.",
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
+  },
+  
+  /**
+   * Supprime un livre existant par son ID.
+   *
+   * @param req - Requête Express contenant l'ID du livre dans req.params.id
+   * @param res - Réponse Express pour retourner le résultat
+   * @returns Promise<void>
+   *
+   * @description Vérifie d'abord l'existence du livre, puis le supprime s'il existe
+   *
+   * @status
+   * - 204: Livre supprimé avec succès (pas de contenu)
+   * - 404: Livre non trouvé
+   * - 500: Erreur lors de la suppression
+   *
+   * @example
+   * DELETE /api/books/123
+   */
+  deleteBookById: async (req: Request, res: Response): Promise<void> => {
+    try {
+      const id = String(req.params.id);
+
+      const book = await queryBooks(id);
+      if (!book || book.length === 0) {
+        res.status(404).json({
+          success: false,
+          message: "Livre non trouvé",
+          error: `Aucun livre avec l'ID: ${id}`,
+        });
+      } else {
+        // ID présent -> Query la DB pour modifier la valeurs
+        await deleteBook(id);
+        res.status(204).end();
+      }
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message:
+          "Erreur lors de la suppression du livre, veuillez vérifier l'ID.",
         error: error instanceof Error ? error.message : String(error),
       });
     }

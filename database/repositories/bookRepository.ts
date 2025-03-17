@@ -207,3 +207,40 @@ export async function patchStatus(id: string, status: string) {
     }
   }
 }
+
+/**
+ * Supprime un livre de la base de données par son ID.
+ *
+ * @param id - L'identifiant unique du livre à supprimer
+ * @returns Promise<any> - Résultat de l'opération de suppression
+ * @throws {Error} - En cas d'échec de la requête de suppression
+ *
+ * @description
+ * Établit une connexion à la base de données, exécute une requête DELETE
+ * pour supprimer le livre spécifié, puis ferme la connexion.
+ * Utilise une requête paramétrée pour éviter les injections SQL.
+ *
+ * @example
+ * await deleteBook("550e8400-e29b-41d4-a716-446655440000");
+ */
+export async function deleteBook(id: string) {
+  let client: Client | null = null;
+
+  try {
+    client = await dbConnect();
+
+    const results = await client.query(`DELETE FROM books WHERE id = ?;`, [id]);
+
+    client.close();
+    console.log(results);
+    return results;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  } finally {
+    // Fermer la connexion même en cas d'erreur
+    if (client) {
+      await client.close();
+    }
+  }
+}
