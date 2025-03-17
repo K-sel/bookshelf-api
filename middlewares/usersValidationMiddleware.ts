@@ -50,6 +50,7 @@ export const validateLanguageParams = (
       error: "Validation échouée",
       formatAttendu: `fr || it || en || de`,
     });
+    return;
   }
 
   next();

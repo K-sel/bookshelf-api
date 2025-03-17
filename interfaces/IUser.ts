@@ -11,9 +11,9 @@ export interface User {
 export const USER_FORMAT = {
   firstname: "string",
   name: "string",
-  age: "number // between 1 and 120 years old",
+  age: "number (1, 120)",
   language: " 'fr' | 'it' | 'en' | 'de' ",
-  email: "string // xxx@xxx.xx",
+  email: "string (xxx@xxx.xx)",
   password: "string",
   isAdmin: "boolean",
 };
