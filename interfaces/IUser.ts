@@ -18,7 +18,7 @@ export const USER_FORMAT = {
   isAdmin: "boolean",
 };
 
-export const isInstanceOfUser = (object: User): boolean => {
+export const isInstanceOfUser = (object: any): object is User  => {
   // Vérifie les champs obligatoires
   const validFields =
     object &&
