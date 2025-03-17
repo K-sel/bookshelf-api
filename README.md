@@ -137,4 +137,4 @@ Ce projet est actuellement **en développement actif**. L'API de base est compl�
 
 Ce projet m'a permis d'approfondir ma compréhension des systèmes d'API modernes et des pratiques de sécurité en développement. J'ai particulièrement apprécié la découverte de l'écosystème Deno et son approche "sécurité par défaut", ainsi que l'application des principes REST pour créer une API cohérente et intuitive.
 
-Développé avec 💙 par K-sel !!
+Développé avec 💙 par K-sel !!!
