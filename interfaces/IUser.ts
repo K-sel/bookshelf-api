@@ -2,7 +2,7 @@ export interface User {
   firstname: string;
   name: string;
   age: number;
-  language: string;
+  language: "fr" | "it" | "en" | "de";
   email: string;
   password: string;
   isAdmin: boolean;
@@ -11,14 +11,14 @@ export interface User {
 export const USER_FORMAT = {
   firstname: "string",
   name: "string",
-  age: "number",
-  language: "string",
-  email: "string",
+  age: "number // between 1 and 120 years old",
+  language: " 'fr' | 'it' | 'en' | 'de' ",
+  email: "string // xxx@xxx.xx",
   password: "string",
   isAdmin: "boolean",
 };
 
-export const isInstanceOfUser = (object: any): object is User  => {
+export const isInstanceOfUser = (object: any): object is User => {
   // Vérifie les champs obligatoires
   const validFields =
     object &&
@@ -26,7 +26,7 @@ export const isInstanceOfUser = (object: any): object is User  => {
     typeof object.firstname === "string" &&
     typeof object.name === "string" &&
     typeof object.age === "number" &&
-    typeof object.language === "string" &&
+    ["fr", "it", "en", "de"].includes(object.language) &&
     typeof object.email === "string" &&
     typeof object.password === "string" &&
     typeof object.isAdmin === "boolean";
@@ -45,7 +45,5 @@ export const isInstanceOfUser = (object: any): object is User  => {
     allowedKeys.includes(key)
   );
 
-  const isRealisticAge = object.age > 0 && object.age < 120;
-
-  return validFields && hasOnlyAllowedFields && isRealisticAge;
+  return validFields && hasOnlyAllowedFields;
 };

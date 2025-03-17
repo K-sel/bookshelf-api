@@ -1,7 +1,7 @@
 // @ts-types="npm:@types/express@4.17.15"
 import express from "express";
 import { booksController } from "../controllers/booksController.ts";
-import { validatePostRequestBody, validateGetStatusParams, validatePatchRequestParams } from "../middlewares/validationMiddleware.ts";
+import { validatePostRequestBody, validateGetStatusParams, validatePatchRequestParams } from "../middlewares/booksValidationMiddleware.ts";
 
 const router = express.Router();
 

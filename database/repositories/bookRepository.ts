@@ -2,10 +2,8 @@
 import { Client } from "https://deno.land/x/mysql@v2.12.1/mod.ts";
 import { Book } from "../../interfaces/IBook.ts";
 import { dbConnect } from "../db-connect.ts";
-import {
-  instanceOfValidBookForDbStorage,
-  generateValidUUID,
-} from "../validators/bookValidator.ts";
+import { instanceOfValidBookForDbStorage } from "../validators/bookValidator.ts";
+import { generateValidUUID } from "../../utils/uuid.ts";
 
 /**
  * Interroge la base de données MySQL pour récupérer des livres.
