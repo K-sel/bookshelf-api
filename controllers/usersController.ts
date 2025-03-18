@@ -16,7 +16,6 @@ export const usersController = {
       const user = await queryUsers(email);
 
       if (!user || user.length === 0) {
-        console.log("WRONG EMAIL");
         res.status(401).json({
           success: false,
           message: "Cet email ne correspond à aucun compte",
