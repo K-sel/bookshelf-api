@@ -4,7 +4,6 @@ import { User } from "../../interfaces/IUser.ts";
 import { dbConnect } from "../db-connect.ts";
 import { generateValidUUID } from "../../utils/uuid.ts";
 import { isInstanceOfUserValidForDbStorage } from "../validators/userValidator.ts";
-import { hash } from "@stdext/crypto/hash";
 import { hashPassword } from "../../utils/cryptography.ts";
 
 export async function queryUsers(email: string | null = null) {
