@@ -4,6 +4,7 @@ import booksRoutes from "./routes/booksRoutes.ts";
 import reqLogger from "./middlewares/reqLogger.ts";
 import { corsMiddleware } from "./middlewares/cors.ts";
 import usersRoutes from "./routes/usersRoutes.ts";
+
 // Init
 const app = express();
 const PORT: number = Number(Deno.env.get("APP_PORT")) || 3000;

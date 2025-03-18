@@ -4,9 +4,11 @@
     "jsr:@std/assert@^1.0.11": "1.0.11",
     "jsr:@std/bytes@^1.0.5": "1.0.5",
     "jsr:@std/crypto@^1.0.4": "1.0.4",
+    "jsr:@std/encoding@1": "1.0.7",
     "jsr:@std/encoding@^1.0.7": "1.0.7",
     "jsr:@std/internal@^1.0.5": "1.0.5",
     "jsr:@std/uuid@^1.0.5": "1.0.5",
+    "jsr:@stdext/crypto@0.1": "0.1.0",
     "npm:@types/express@4.17.15": "4.17.15",
     "npm:@types/node@*": "22.12.0",
     "npm:express@^4.21.2": "4.21.2"
@@ -35,6 +37,12 @@
       "dependencies": [
         "jsr:@std/bytes",
         "jsr:@std/crypto"
+      ]
+    },
+    "@stdext/crypto@0.1.0": {
+      "integrity": "05dc9e754c2529574d8bf98bd40c7dc468a02dcb2fa5e8644fff6813ceab66a4",
+      "dependencies": [
+        "jsr:@std/encoding@1"
       ]
     }
   },
@@ -571,8 +579,10 @@
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@^1.0.11",
+      "jsr:@std/crypto@^1.0.4",
       "jsr:@std/encoding@^1.0.7",
       "jsr:@std/uuid@^1.0.5",
+      "jsr:@stdext/crypto@0.1",
       "npm:express@^4.21.2"
     ]
   }

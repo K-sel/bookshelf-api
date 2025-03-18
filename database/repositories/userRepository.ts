@@ -4,7 +4,7 @@ import { User } from "../../interfaces/IUser.ts";
 import { dbConnect } from "../db-connect.ts";
 import { generateValidUUID } from "../../utils/uuid.ts";
 import { isInstanceOfUserValidForDbStorage } from "../validators/userValidator.ts";
-
+import { hash, verify } from "@stdext/crypto/hash";
 
 export async function queryUsers(_id: string | null = null) {
   let client: Client | null = null;
@@ -53,7 +53,7 @@ export async function insertUser(data: User): Promise<boolean> {
           user.age,
           user.language,
           user.email,
-          user.password,
+          hash("bcrypt", user.password),
           user.isAdmin,
         ]
       );
