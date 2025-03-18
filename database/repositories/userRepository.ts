@@ -4,18 +4,19 @@ import { User } from "../../interfaces/IUser.ts";
 import { dbConnect } from "../db-connect.ts";
 import { generateValidUUID } from "../../utils/uuid.ts";
 import { isInstanceOfUserValidForDbStorage } from "../validators/userValidator.ts";
-import { hash, verify } from "@stdext/crypto/hash";
+import { hash } from "@stdext/crypto/hash";
+import { hashPassword } from "../../utils/cryptography.ts";
 
-export async function queryUsers(_id: string | null = null) {
+export async function queryUsers(email: string | null = null) {
   let client: Client | null = null;
 
   try {
     client = await dbConnect();
 
     const results =
-      _id === null
+      email === null
         ? await client.query("SELECT * FROM Users")
-        : await client.query(`SELECT * FROM Users WHERE id = ?`, [_id]);
+        : await client.query(`SELECT * FROM Users WHERE email = ?`, [email]);
 
     client.close();
 
@@ -43,6 +44,7 @@ export async function insertUser(data: User): Promise<boolean> {
     };
 
     if (isInstanceOfUserValidForDbStorage(user)) {
+      const hash = await hashPassword(user.password);
       const added = await client.query(
         `INSERT INTO Users (id, name, firstname, age, language, email, password, isAdmin) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -53,7 +55,7 @@ export async function insertUser(data: User): Promise<boolean> {
           user.age,
           user.language,
           user.email,
-          hash("bcrypt", user.password),
+          hash,
           user.isAdmin,
         ]
       );

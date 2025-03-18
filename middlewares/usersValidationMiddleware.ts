@@ -55,3 +55,28 @@ export const validateLanguageParams = (
 
   next();
 };
+
+export const validateLoginRequestBody = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  const email = req.body.email;
+  const passowrd = req.body.password;
+
+  if (passowrd && email && isValidEmail(email)) {
+    next();
+  } else {
+    res.status(422).json({
+      success: false,
+      message:
+        "La demande de connexion ne contient pas les données attendues ou leur format est incorrect.",
+      error: "Validation échouée",
+      formatAttendu: `{
+      "email" :string "xxx@xxx.xx",
+      "password" :string
+      }`,
+    });
+    return;
+  }
+};
