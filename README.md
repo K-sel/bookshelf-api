@@ -2,6 +2,18 @@
 
 Une API REST moderne pour la gestion d'une bibliothèque personnelle, développée avec des technologies de nouvelles génération.
 
+## 📑 Table des matières
+- [À propos du projet](#-à-propos-du-projet)
+- [Transition de Deno à Node.js](#-transition-de-deno-à-nodejs)
+- [Stack Technologique](#️-stack-technologique)
+- [Pourquoi cette stack?](#-pourquoi-cette-stack)
+- [Endpoints API](#-endpoints-api)
+- [Format des Réponses API](#-format-des-réponses-api)
+- [Structure des Données](#-structure-des-données)
+- [Statut du Projet](#-statut-du-projet)
+- [Changelog](#-changelog)
+- [Ce que j'ai appris](#-ce-que-jai-appris)
+
 ## 🌟 À propos du projet
 
 Bookshelf est une API REST conçue pour permettre aux utilisateurs de gérer leur collection de livres de manière simple et efficace. Elle offre toutes les fonctionnalités CRUD (Create, Read, Update, Delete) nécessaires pour manipuler une bibliothèque personnelle.
