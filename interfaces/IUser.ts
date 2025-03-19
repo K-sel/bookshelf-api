@@ -18,6 +18,7 @@ export const USER_FORMAT = {
   isAdmin: "boolean",
 };
 
+// deno-lint-ignore no-explicit-any
 export const isInstanceOfUser = (object: any): object is User => {
   // Vérifie les champs obligatoires
   const validFields =

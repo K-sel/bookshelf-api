@@ -37,7 +37,7 @@ export const validateLanguageParams = (
 ): void => {
   const language = req.body.language;
 
-  if (
+  if (language &&
     language != "fr" &&
     language != "it" &&
     language != "en" &&

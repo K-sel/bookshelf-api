@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../interfaces/IUser.ts";
 import {
+  deleteUser,
   insertUser,
   patchUser,
   queryUsers,
@@ -54,7 +55,7 @@ export const usersController = {
     }
   },
 
-  update: async (req: Request, res: Response): Promise<void> => {
+  updateUser: async (req: Request, res: Response): Promise<void> => {
     try {
       const id = String(req.params.id);
       const fields = req.body;
@@ -98,8 +99,7 @@ export const usersController = {
       } else {
         res.status(409).json({
           success: false,
-          message:
-            "Modifications refusées, les valeurs entrées sont déja les valeurs actuelles",
+          message: "Modifications refusées, controlez vos saisies",
           error: "Impossible de modifier les valeurs de l'utilisateur",
         });
       }
@@ -141,6 +141,41 @@ export const usersController = {
       res.status(statusCode).json({
         success: false,
         message: "Erreur lors de l'ajout de l'utilisateur",
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
+  },
+
+  deleteUser: async (req: Request, res: Response): Promise<void> => {
+    try {
+      const password = req.body.password;
+      const email = req.body.email;
+
+      const [user] = await queryUsers(email);
+
+      if (!user) {
+        res.status(401).json({
+          success: false,
+          message: "Cet email ne correspond à aucun compte",
+        });
+        return;
+      }
+
+      const passwordOK = await verifyPassword(password, user.password);
+
+      if (passwordOK && user.email) {
+        await deleteUser(user.id);
+        res.status(204).end();
+      } else {
+        res.status(401).json({
+          success: false,
+          message: "Connexion refusée, mot de passe incorrect",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Erreur lors de la suppression du compte.",
         error: error instanceof Error ? error.message : String(error),
       });
     }

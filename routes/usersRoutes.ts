@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.post("/", validateLanguageParams, validatePostUserRequestBody, usersController.createUser);
 router.post("/login", validateLoginRequestBody , usersController.login);
-router.put("/:id", validateMail, validateLanguageParams, usersController.update)
+router.patch("/:id", validateMail, validateLanguageParams, usersController.updateUser)
+router.delete("/", validateLoginRequestBody , usersController.deleteUser);
 
-export default router;
+
+export default router; 
