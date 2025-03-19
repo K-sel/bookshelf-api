@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "author": "K-sel",
-  "type": "commonjs",
+  "type": "module",
   "main": "main.ts",
   "scripts": {
     "build": "tsc",
