@@ -56,6 +56,30 @@ export const validateLanguageParams = (
   next();
 };
 
+export const validateMail = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  const email = req.body.email;
+
+  if (email) {
+    if (!isValidEmail(email)) {
+      res.status(400).json({
+        success: false,
+        message: "Ceci n'est pas une adresse mail",
+        error: "Validation échouée",
+        formatAttendu: "xxx@xxx.xx",
+      });
+      return;
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+};
+
 export const validateLoginRequestBody = (
   req: Request,
   res: Response,

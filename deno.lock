@@ -7,11 +7,8 @@
     "jsr:@std/bytes@^1.0.5": "1.0.5",
     "jsr:@std/crypto@1": "1.0.4",
     "jsr:@std/crypto@^1.0.4": "1.0.4",
-    "jsr:@std/encoding@1": "1.0.7",
-    "jsr:@std/encoding@^1.0.7": "1.0.7",
     "jsr:@std/internal@^1.0.5": "1.0.5",
     "jsr:@std/uuid@^1.0.5": "1.0.5",
-    "jsr:@stdext/crypto@0.1": "0.1.0",
     "npm:@types/express@4.17.15": "4.17.15",
     "npm:@types/node@*": "22.12.0",
     "npm:express@^4.21.2": "4.21.2"
@@ -29,9 +26,6 @@
     "@std/crypto@1.0.4": {
       "integrity": "cee245c453bd5366207f4d8aa25ea3e9c86cecad2be3fefcaa6cb17203d79340"
     },
-    "@std/encoding@1.0.7": {
-      "integrity": "f631247c1698fef289f2de9e2a33d571e46133b38d042905e3eac3715030a82d"
-    },
     "@std/internal@1.0.5": {
       "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
     },
@@ -40,12 +34,6 @@
       "dependencies": [
         "jsr:@std/bytes@^1.0.5",
         "jsr:@std/crypto@^1.0.4"
-      ]
-    },
-    "@stdext/crypto@0.1.0": {
-      "integrity": "05dc9e754c2529574d8bf98bd40c7dc468a02dcb2fa5e8644fff6813ceab66a4",
-      "dependencies": [
-        "jsr:@std/encoding@1"
       ]
     }
   },
@@ -584,7 +572,6 @@
       "jsr:@std/assert@^1.0.11",
       "jsr:@std/crypto@^1.0.4",
       "jsr:@std/uuid@^1.0.5",
-      "jsr:@stdext/crypto@0.1",
       "npm:express@^4.21.2"
     ]
   }

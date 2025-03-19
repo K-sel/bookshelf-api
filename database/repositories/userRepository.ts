@@ -6,16 +6,24 @@ import { generateValidUUID } from "../../utils/uuid.ts";
 import { isInstanceOfUserValidForDbStorage } from "../validators/userValidator.ts";
 import { hashPassword } from "../../utils/cryptography.ts";
 
-export async function queryUsers(email: string | null = null) {
+export async function queryUsers(
+  email: string | null = null,
+  _id: string | null = null
+) {
   let client: Client | null = null;
 
   try {
     client = await dbConnect();
+    let results = null;
 
-    const results =
-      email === null
-        ? await client.query("SELECT * FROM Users")
-        : await client.query(`SELECT * FROM Users WHERE email = ?`, [email]);
+    if (_id) {
+      results = await client.query(`SELECT * FROM Users WHERE id = ?`, [_id]);
+    } else {
+      results =
+        email === null
+          ? await client.query("SELECT * FROM Users")
+          : await client.query(`SELECT * FROM Users WHERE email = ?`, [email]);
+    }
 
     client.close();
 
@@ -31,7 +39,7 @@ export async function queryUsers(email: string | null = null) {
   }
 }
 
-export async function insertUser(data: User): Promise<boolean> {
+export async function insertUser(data: User): Promise<string> {
   let client: Client | null = null;
 
   try {
@@ -44,7 +52,8 @@ export async function insertUser(data: User): Promise<boolean> {
 
     if (isInstanceOfUserValidForDbStorage(user)) {
       const hash = await hashPassword(user.password);
-      const added = await client.query(
+
+      await client.query(
         `INSERT INTO Users (id, name, firstname, age, language, email, password, isAdmin) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
         [
@@ -60,9 +69,8 @@ export async function insertUser(data: User): Promise<boolean> {
       );
 
       client.close();
-      console.log(added);
       // Cas unique de retour :  Si l'insertion est réussie, sinon une erreur est remontée dans tous les cas
-      return true;
+      return user.id;
     } else {
       throw new Error(
         "Format de l'utilisateur invalide pour l'insertion en base de données"
@@ -83,15 +91,15 @@ export async function insertUser(data: User): Promise<boolean> {
   }
 }
 
-export async function patchUser(_params: string[]) {
+export async function patchUser(id: string, key: string, value: string) {
   let client: Client | null = null;
 
   try {
     client = await dbConnect();
 
     const results = await client.query(
-      `UPDATE books SET status = ? WHERE id = ?;`,
-      []
+      `UPDATE Users SET ${key} = ? WHERE id = ?;`,
+      [value, id]
     );
 
     client.close();
