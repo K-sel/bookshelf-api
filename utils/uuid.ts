@@ -1,5 +1,4 @@
-import { v4 } from "@std/uuid";
-import { assert } from "@std/assert";
+import { v4 as uuidv4 } from 'uuid';
 
 /**
 * Génère un identifiant unique universel (UUID) v4 valide.
@@ -8,7 +7,6 @@ import { assert } from "@std/assert";
 * 
 */
 export function generateValidUUID(): string {
-  const uuid = crypto.randomUUID();
-  assert(v4.validate(uuid));
+  const uuid = uuidv4()
   return uuid;
 }

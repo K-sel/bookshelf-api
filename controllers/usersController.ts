@@ -7,6 +7,7 @@ import {
   queryUsers,
 } from "../database/repositories/userRepository.ts";
 import { verifyPassword } from "../utils/cryptography.ts";
+import { RowDataPacket } from "mysql2";
 
 /**
  * Objet contenant les méthodes de contrôleur pour la gestion des utilisateurs dans l'API.
@@ -14,24 +15,13 @@ import { verifyPassword } from "../utils/cryptography.ts";
 export const usersController = {
   /**
    * Gère l'authentification d'un utilisateur.
-   *
-   * @param req - L'objet Request contenant les informations de la requête HTTP.
-   * @param res - L'objet Response utilisé pour envoyer la réponse HTTP.
-   * @returns Une promesse void qui se résout lorsque la réponse est envoyée.
-   *
-   * @remarks
-   * - Vérifie si l'email existe dans la base de données.
-   * - Authentifie l'utilisateur en vérifiant le mot de passe.
-   * - Renvoie les données de l'utilisateur en cas de succès (statut 200).
-   * - Renvoie une erreur 401 si l'email n'existe pas ou si le mot de passe est incorrect.
-   * - Renvoie une erreur 500 en cas d'erreur serveur.
    */
   login: async (req: Request, res: Response): Promise<void> => {
     try {
       const password = req.body.password;
       const email = req.body.email;
 
-      const [user] = await queryUsers(email);
+      const [user] = await queryUsers(email) as RowDataPacket[];
 
       if (!user) {
         res.status(401).json({
@@ -74,19 +64,6 @@ export const usersController = {
 
   /**
    * Met à jour les informations d'un utilisateur spécifique.
-   *
-   * @param req - L'objet Request contenant les informations de la requête HTTP, y compris l'ID de l'utilisateur et les champs à mettre à jour.
-   * @param res - L'objet Response utilisé pour envoyer la réponse HTTP.
-   * @returns Une promesse void qui se résout lorsque la réponse est envoyée.
-   *
-   * @remarks
-   * - Vérifie si l'utilisateur existe avec l'ID fourni.
-   * - Limite les modifications aux champs autorisés (firstname, name, age, language, email).
-   * - Ignore les champs qui n'ont pas changé.
-   * - Exécute toutes les modifications en parallèle via Promise.all.
-   * - Renvoie une erreur 401 si l'ID n'existe pas.
-   * - Renvoie une erreur 409 si aucune modification n'a été appliquée.
-   * - Renvoie une erreur 500 en cas d'erreur serveur.
    */
   updateUser: async (req: Request, res: Response): Promise<void> => {
     try {
@@ -103,7 +80,7 @@ export const usersController = {
 
       const patchRequests = [];
 
-      const [user] = await queryUsers(null, id);
+      const [user] = await queryUsers(null, id) as RowDataPacket[];
 
       if (!user) {
         res.status(401).json({
@@ -148,16 +125,6 @@ export const usersController = {
 
   /**
    * Crée un nouvel utilisateur dans le système.
-   *
-   * @param req - L'objet Request contenant les informations de la requête HTTP, y compris les données de l'utilisateur à créer.
-   * @param res - L'objet Response utilisé pour envoyer la réponse HTTP.
-   * @returns Une promesse void qui se résout lorsque la réponse est envoyée.
-   *
-   * @remarks
-   * - Insère un nouvel utilisateur avec les données fournies dans le corps de la requête.
-   * - Renvoie un statut 201 avec l'ID de l'utilisateur créé en cas de succès.
-   * - Renvoie une erreur 400 si le format de l'utilisateur est invalide.
-   * - Renvoie une erreur 500 en cas d'erreur serveur.
    */
   createUser: async (req: Request, res: Response): Promise<void> => {
     try {
@@ -194,24 +161,13 @@ export const usersController = {
 
   /**
    * Supprime un compte utilisateur après vérification des identifiants.
-   *
-   * @param req - L'objet Request contenant les informations de la requête HTTP, y compris l'email et le mot de passe pour l'authentification.
-   * @param res - L'objet Response utilisé pour envoyer la réponse HTTP.
-   * @returns Une promesse void qui se résout lorsque la réponse est envoyée.
-   *
-   * @remarks
-   * - Vérifie si l'email existe dans la base de données.
-   * - Authentifie l'utilisateur en vérifiant le mot de passe avant la suppression.
-   * - Renvoie un statut 204 (No Content) en cas de suppression réussie.
-   * - Renvoie une erreur 401 si l'email n'existe pas ou si le mot de passe est incorrect.
-   * - Renvoie une erreur 500 en cas d'erreur serveur.
    */
   deleteUser: async (req: Request, res: Response): Promise<void> => {
     try {
       const password = req.body.password;
       const email = req.body.email;
 
-      const [user] = await queryUsers(email);
+      const [user] = await queryUsers(email) as RowDataPacket[];
 
       if (!user) {
         res.status(401).json({

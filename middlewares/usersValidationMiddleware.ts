@@ -22,11 +22,6 @@ function isValidEmail(email: string): boolean {
 /**
  * Middleware qui valide les données utilisateur dans le corps de la requête POST.
  *
- * @param req - L'objet Request contenant les données de l'utilisateur dans req.body.
- * @param res - L'objet Response utilisé pour envoyer une erreur de validation.
- * @param next - Fonction permettant de passer au middleware suivant si la validation réussit.
- * @returns void
- *
  * @remarks
  * - Vérifie que les données correspondent à la structure attendue pour un utilisateur.
  * - Valide également le format de l'adresse email.
@@ -55,11 +50,6 @@ export const validatePostUserRequestBody = (
 
 /**
  * Middleware qui valide le paramètre de langue dans la requête.
- *
- * @param req - L'objet Request contenant le paramètre de langue dans req.body.language.
- * @param res - L'objet Response utilisé pour envoyer une erreur de validation.
- * @param next - Fonction permettant de passer au middleware suivant si la validation réussit.
- * @returns void
  *
  * @remarks
  * - Vérifie que la langue est l'une des quatre valeurs attendues : "fr", "it", "en" ou "de".
@@ -96,11 +86,6 @@ export const validateLanguageParams = (
 /**
  * Middleware qui valide le format de l'adresse email dans la requête.
  *
- * @param req - L'objet Request contenant l'email dans req.body.email.
- * @param res - L'objet Response utilisé pour envoyer une erreur de validation.
- * @param next - Fonction permettant de passer au middleware suivant si la validation réussit.
- * @returns void
- *
  * @remarks
  * - Vérifie que l'adresse email est dans un format valide si elle est présente.
  * - Ignore la validation si aucun email n'est fourni.
@@ -132,11 +117,6 @@ export const validateMail = (
 
 /**
  * Middleware qui valide les informations de connexion dans la requête.
- *
- * @param req - L'objet Request contenant l'email et le mot de passe dans req.body.
- * @param res - L'objet Response utilisé pour envoyer une erreur de validation.
- * @param next - Fonction permettant de passer au middleware suivant si la validation réussit.
- * @returns void
  *
  * @remarks
  * - Vérifie que l'email et le mot de passe sont présents dans la requête.
