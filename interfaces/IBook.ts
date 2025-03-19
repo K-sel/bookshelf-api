@@ -14,6 +14,7 @@ export const BOOK_FORMAT = {
   summary: "string",
 };
 
+// deno-lint-ignore no-explicit-any
 export function instanceOfBook(object: any): object is Book {
   // Vérifie les champs obligatoires
   const validFields = 

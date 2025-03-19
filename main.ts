@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import booksRoutes from "./routes/booksRoutes.ts";
 import reqLogger from "./middlewares/reqLogger.ts";
 import { corsMiddleware } from "./middlewares/cors.ts";
+import usersRoutes from "./routes/usersRoutes.ts";
 
 // Init
 const app = express();
@@ -20,6 +21,7 @@ app.use(reqLogger);
 
 // Routes
 app.use("/books", booksRoutes);
+app.use("/users", usersRoutes);
 
 // Landing
 app.get("/", (_req: Request, res: Response) => {
