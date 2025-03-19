@@ -1,18 +1,15 @@
-// @ts-types="npm:@types/express@4.17.15"
-import express, { Request, Response } from "express";
-import booksRoutes from "./routes/booksRoutes.ts";
+import express from "express";
+import cors from "cors";
+import booksRoutes from "./routes/booksRoutes.ts"; // Note: utilisez .js pour les imports en ES modules
 import reqLogger from "./middlewares/reqLogger.ts";
-import { corsMiddleware } from "./middlewares/cors.ts";
 import usersRoutes from "./routes/usersRoutes.ts";
 
 // Init
 const app = express();
-const PORT: number = Number(Deno.env.get("APP_PORT")) || 3000;
-app.listen(PORT);
-console.log(`Server is running on http://localhost:${PORT}`);
+const PORT: number = 3000;
 
 // Application du middleware CORS à toutes les routes
-app.use(corsMiddleware());
+app.use(cors());
 
 // Middlewares
 app.use(express.json());
@@ -23,7 +20,7 @@ app.use(reqLogger);
 app.use("/books", booksRoutes);
 app.use("/users", usersRoutes);
 
-// Landing
-app.get("/", (_req: Request, res: Response) => {
-  res.send(`Bienvenue sur mon l'API Bookshelf, écrite par K-sel !`);
+// Démarrer le serveur
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

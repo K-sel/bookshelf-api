@@ -1,9 +1,9 @@
 // Opérations CRUD pour les livres
-import { Client } from "https://deno.land/x/mysql@v2.12.1/mod.ts";
 import { Book } from "../../interfaces/IBook.ts";
 import { dbConnect } from "../db-connect.ts";
 import { instanceOfValidBookForDbStorage } from "../validators/bookValidator.ts";
 import { generateValidUUID } from "../../utils/uuid.ts";
+import { PoolConnection , Pool} from 'mysql2/promise';
 
 /**
  * Interroge la base de données MySQL pour récupérer des livres.
@@ -19,26 +19,28 @@ import { generateValidUUID } from "../../utils/uuid.ts";
  * const book = await query("123");
  */
 export async function queryBooks(_id: string | null = null) {
-  let client: Client | null = null;
+  let connection: PoolConnection | null = null;
 
   try {
-    client = await dbConnect();
+    connection = await dbConnect();
 
-    const results =
+    const [rows] =
       _id === null
-        ? await client.query("SELECT * FROM books")
-        : await client.query(`SELECT * FROM books WHERE id = ?`, [_id]);
+        ? await connection.query("SELECT * FROM books")
+        : await connection.query(`SELECT * FROM books WHERE id = ?`, [_id]);
 
-    client.close();
+    connection.release();
 
-    return results;
+    console.log(rows);
+
+    return rows;
   } catch (error) {
     console.error(error);
     throw error;
   } finally {
-    // Fermer la connexion même en cas d'erreur
-    if (client) {
-      await client.close();
+    // Libérer la connexion même en cas d'erreur
+    if (connection) {
+      connection.release();
     }
   }
 }
@@ -60,23 +62,23 @@ export async function queryBooks(_id: string | null = null) {
  * const readBooks = await queryBooksStatus("read");
  */
 export async function queryBooksStatus(status: string) {
-  let client: Client | null = null;
+  let connection: PoolConnection | null = null;
 
   try {
-    client = await dbConnect();
+    connection = await dbConnect();
 
-    const results = await client.query(`SELECT * FROM books WHERE status = ?`, [
+    const [rows] = await connection.query(`SELECT * FROM books WHERE status = ?`, [
       status,
     ]);
-    client.close();
-    return results;
+    connection.release();
+    return rows;
   } catch (error) {
     console.error(error);
     throw error;
   } finally {
-    // Fermer la connexion même en cas d'erreur
-    if (client) {
-      await client.close();
+    // Libérer la connexion même en cas d'erreur
+    if (connection) {
+      connection.release();
     }
   }
 }
@@ -108,10 +110,10 @@ export async function queryBooksStatus(status: string) {
  * }
  */
 export async function insertBook(data: Book): Promise<boolean> {
-  let client: Client | null = null;
+  let connection: PoolConnection | null = null;
 
   try {
-    client = await dbConnect();
+    connection = await dbConnect();
 
     const book = {
       id: generateValidUUID(),
@@ -119,7 +121,7 @@ export async function insertBook(data: Book): Promise<boolean> {
     };
 
     if (instanceOfValidBookForDbStorage(book)) {
-      await client.query(
+      await connection.query(
         `INSERT INTO Books (id, author, title, cover, status, summary) 
         VALUES (?, ?, ?, ?, ?, ?)`,
         [
@@ -132,7 +134,7 @@ export async function insertBook(data: Book): Promise<boolean> {
         ]
       );
 
-      client.close();
+      connection.release();
 
       // Cas unique de retour :  Si l'insertion est réussie, sinon une erreur est remontée dans tous les cas
       return true;
@@ -149,9 +151,9 @@ export async function insertBook(data: Book): Promise<boolean> {
     );
     throw error; // Remonter l'erreur pour la gestion dans l'API
   } finally {
-    // Fermer la connexion même en cas d'erreur
-    if (client) {
-      await client.close();
+    // Libérer la connexion même en cas d'erreur
+    if (connection) {
+      connection.release();
     }
   }
 }
@@ -183,25 +185,25 @@ export async function insertBook(data: Book): Promise<boolean> {
  * }
  */
 export async function patchStatus(id: string, status: string) {
-  let client: Client | null = null;
+  let connection: PoolConnection | null = null;
 
   try {
-    client = await dbConnect();
+    connection = await dbConnect();
 
-    const results = await client.query(
+    const [rows] = await connection.query(
       `UPDATE books SET status = ? WHERE id = ?;`,
       [status, id]
     );
 
-    client.close();
-    return results;
+    connection.release();
+    return rows;
   } catch (error) {
     console.error(error);
     throw error;
   } finally {
-    // Fermer la connexion même en cas d'erreur
-    if (client) {
-      await client.close();
+    // Libérer la connexion même en cas d'erreur
+    if (connection) {
+      connection.release();
     }
   }
 }
@@ -222,23 +224,23 @@ export async function patchStatus(id: string, status: string) {
  * await deleteBook("550e8400-e29b-41d4-a716-446655440000");
  */
 export async function deleteBook(id: string) {
-  let client: Client | null = null;
+  let connection: PoolConnection | null = null;
 
   try {
-    client = await dbConnect();
+    connection = await dbConnect();
 
-    const results = await client.query(`DELETE FROM books WHERE id = ?;`, [id]);
+    const [rows] = await connection.query(`DELETE FROM books WHERE id = ?;`, [id]);
 
-    client.close();
-    console.log(results);
-    return results;
+    connection.release();
+    console.log(rows);
+    return rows;
   } catch (error) {
     console.error(error);
     throw error;
   } finally {
-    // Fermer la connexion même en cas d'erreur
-    if (client) {
-      await client.close();
+    // Libérer la connexion même en cas d'erreur
+    if (connection) {
+      connection.release();
     }
   }
 }
