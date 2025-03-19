@@ -42,6 +42,19 @@ export const validatePostRequestBody = (
   next();
 };
 
+/**
+ * Middleware qui valide le paramètre de statut de livre dans la requête.
+ *
+ * @param req - L'objet Request contenant le paramètre de statut dans req.params.status ou req.body.status.
+ * @param res - L'objet Response utilisé pour envoyer une erreur de validation.
+ * @param next - Fonction permettant de passer au middleware suivant si la validation réussit.
+ * @returns void
+ *
+ * @remarks
+ * - Vérifie que le statut du livre est l'une des trois valeurs attendues : "read", "to-read", ou "pending".
+ * - Renvoie une erreur 422 si le statut n'est pas valide, avec des détails sur le format attendu.
+ * - Si le statut est valide, passe au middleware suivant.
+ */
 export const validateGetStatusParams = (
   req: Request,
   res: Response,
@@ -66,6 +79,19 @@ export const validateGetStatusParams = (
   next();
 };
 
+/**
+ * Middleware qui valide les paramètres requis pour les requêtes PATCH.
+ *
+ * @param req - L'objet Request contenant l'ID du livre dans req.params.id et le nouveau statut dans req.body.status.
+ * @param res - L'objet Response utilisé pour envoyer une erreur de validation.
+ * @param next - Fonction permettant de passer au middleware suivant si la validation réussit.
+ * @returns void
+ *
+ * @remarks
+ * - Vérifie que l'ID du livre et le nouveau statut sont tous deux présents dans la requête.
+ * - Renvoie une erreur 400 si l'un des paramètres est manquant, avec des détails sur le format attendu.
+ * - Si tous les paramètres requis sont présents, passe au middleware suivant.
+ */
 export const validatePatchRequestParams = (
   req: Request,
   res: Response,

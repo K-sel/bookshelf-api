@@ -6,55 +6,220 @@ import { validatePostRequestBody, validateGetStatusParams, validatePatchRequestP
 const router = express.Router();
 
 /**
- * @route GET /books
- * @desc Récupère tous les livres
- * @returns {Object} Succès, données des livres, message
- * @status 200 Succès | 500 Erreur serveur
- */
+* @swagger
+* /books:
+*   get:
+*     summary: Récupère tous les livres
+*     description: Retourne la liste complète des livres dans la base de données
+*     tags: [Books]
+*     responses:
+*       200:
+*         description: Liste des livres récupérée avec succès
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                   example: true
+*                 data:
+*                   type: array
+*                   items:
+*                     $ref: '#/components/schemas/Book'
+*                 message:
+*                   type: string
+*                   example: Livres récupérés avec succès
+*       500:
+*         description: Erreur serveur
+*/
 router.get("/", booksController.getAllBooks);
 
 /**
- * @route GET /books/:id
- * @desc Récupère un livre par ID
- * @param {string} id - Identifiant du livre
- * @returns {Object} Succès, données du livre, message
- * @status 200 Succès | 400 ID invalide | 404 Non trouvé | 500 Erreur serveur
- */
+* @swagger
+* /books/{id}:
+*   get:
+*     summary: Récupère un livre par ID
+*     description: Retourne les détails d'un livre spécifique identifié par son ID
+*     tags: [Books]
+*     parameters:
+*       - in: path
+*         name: id
+*         required: true
+*         schema:
+*           type: string
+*         description: Identifiant unique du livre
+*     responses:
+*       200:
+*         description: Détails du livre récupérés avec succès
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                   example: true
+*                 data:
+*                   $ref: '#/components/schemas/Book'
+*                 message:
+*                   type: string
+*                   example: Livre récupéré avec succès
+*       400:
+*         description: ID invalide
+*       404:
+*         description: Livre non trouvé
+*       500:
+*         description: Erreur serveur
+*/
 router.get("/:id", booksController.getBookById);
 
 /**
- * @route GET /books/status/:status
- * @desc Récupère les livres par statut de lecture
- * @param {string} status - Statut ("read", "to-read", "pending")
- * @returns {Object} Succès, données des livres, message
- * @status 200 Succès | 400 Statut invalide | 404 Aucun livre | 500 Erreur serveur
- */
+* @swagger
+* /books/status/{status}:
+*   get:
+*     summary: Récupère les livres par statut de lecture
+*     description: Retourne tous les livres correspondant au statut de lecture spécifié
+*     tags: [Books]
+*     parameters:
+*       - in: path
+*         name: status
+*         required: true
+*         schema:
+*           type: string
+*           enum: [read, to-read, pending]
+*         description: Statut de lecture des livres à récupérer
+*     responses:
+*       200:
+*         description: Livres récupérés avec succès
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                   example: true
+*                 data:
+*                   type: array
+*                   items:
+*                     $ref: '#/components/schemas/Book'
+*                 message:
+*                   type: string
+*                   example: Livres avec statut 'read' récupérés avec succès
+*       400:
+*         description: Statut invalide
+*       404:
+*         description: Aucun livre trouvé avec ce statut
+*       422:
+*         description: Statut non valide
+*       500:
+*         description: Erreur serveur
+*/
 router.get("/status/:status", validateGetStatusParams, booksController.getBookByStatus);
 
 /**
- * @route PATCH /books/:id
- * @desc Met à jour le statut d'un livre
- * @param {string} id - Identifiant du livre
- * @body {Object} status - Nouveau statut du livre
- * @status 204 Succès | 404 Non trouvé | 409 Conflit | 500 Erreur serveur
- */
+* @swagger
+* /books/{id}:
+*   patch:
+*     summary: Met à jour le statut d'un livre
+*     description: Modifie le statut de lecture d'un livre spécifique
+*     tags: [Books]
+*     parameters:
+*       - in: path
+*         name: id
+*         required: true
+*         schema:
+*           type: string
+*         description: Identifiant unique du livre
+*     requestBody:
+*       required: true
+*       content:
+*         application/json:
+*           schema:
+*             type: object
+*             required:
+*               - status
+*             properties:
+*               status:
+*                 type: string
+*                 enum: [read, to-read, pending]
+*                 description: Nouveau statut du livre
+*     responses:
+*       204:
+*         description: Statut mis à jour avec succès
+*       400:
+*         description: Paramètres manquants ou invalides
+*       404:
+*         description: Livre non trouvé
+*       409:
+*         description: Conflit - Le statut est déjà celui demandé
+*       422:
+*         description: Statut non valide
+*       500:
+*         description: Erreur serveur
+*/
 router.patch("/:id", validatePatchRequestParams, validateGetStatusParams, booksController.updateStatus);
 
 /**
- * @route DELETE /books/:id
- * @desc Supprime un livre de la base de données
- * @param {string} id - Identifiant du livre
- * @status 204 Succès | 404 Non trouvé | 500 Erreur serveur
- */
+* @swagger
+* /books/{id}:
+*   delete:
+*     summary: Supprime un livre
+*     description: Supprime définitivement un livre de la base de données
+*     tags: [Books]
+*     parameters:
+*       - in: path
+*         name: id
+*         required: true
+*         schema:
+*           type: string
+*         description: Identifiant unique du livre à supprimer
+*     responses:
+*       204:
+*         description: Livre supprimé avec succès
+*       404:
+*         description: Livre non trouvé
+*       500:
+*         description: Erreur serveur
+*/
 router.delete("/:id", booksController.deleteBookById);
 
 /**
- * @route POST /books
- * @desc Ajoute un nouveau livre
- * @body {Object} livre - Données du livre (title, author, status, etc.)
- * @returns {Object} Succès, message
- * @status 201 Créé | 400 Données invalides | 500 Erreur serveur
- */
+* @swagger
+* /books:
+*   post:
+*     summary: Ajoute un nouveau livre
+*     description: Crée un nouveau livre dans la base de données
+*     tags: [Books]
+*     requestBody:
+*       required: true
+*       content:
+*         application/json:
+*           schema:
+*             $ref: '#/components/schemas/BookInput'
+*     responses:
+*       201:
+*         description: Livre créé avec succès
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                   example: true
+*                 message:
+*                   type: string
+*                   example: Livre ajouté avec succès
+*                 id:
+*                   type: string
+*                   example: 550e8400-e29b-41d4-a716-446655440000
+*       400:
+*         description: Données invalides
+*       500:
+*         description: Erreur serveur
+*/
 router.post("/", validatePostRequestBody, booksController.createBook);
 
 export default router;
