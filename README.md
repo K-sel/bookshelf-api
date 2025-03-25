@@ -194,9 +194,6 @@ Ce projet est actuellement **en développement actif**. L'API de base est compl�
 ### À venir (v2.0.0)
 - ⏳ Association des livres aux utilisateurs (bibliothèques personnelles)
 - ⏳ Système d'authentification avec JWT
-- ⏳ Amélioration de la configuration CORS pour une meilleure sécurité
-- ⏳ Stockage sécurisé des tokens JWT en cookies HttpOnly
-- ⏳ Contrôle d'accès basé sur les rôles (utilisateur/admin)
 - ⏳ Documentation de l'API avec Swagger
 
 ## 🔍 Ce que j'ai appris
