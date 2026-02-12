@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from "express";
 
 /**
  * Middleware qui enregistre les informations de base sur chaque requête HTTP.

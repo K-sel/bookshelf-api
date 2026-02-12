@@ -1,9 +1,9 @@
 // Opérations CRUD pour les livres
-import { Book } from "../../interfaces/IBook.ts";
+import type { Book } from "../../interfaces/IBook.ts";
 import { dbConnect } from "../db-connect.ts";
 import { instanceOfValidBookForDbStorage } from "../validators/bookValidator.ts";
 import { generateValidUUID } from "../../utils/uuid.ts";
-import { PoolConnection , Pool} from 'mysql2/promise';
+import type { PoolConnection } from 'mysql2/promise';
 
 /**
  * Interroge la base de données MySQL pour récupérer des livres.

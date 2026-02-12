@@ -1,10 +1,10 @@
 // Opérations CRUD pour les livres
-import { PoolConnection } from "mysql2/promise";
+import type { PoolConnection } from "mysql2/promise";
 import { dbConnect } from "../db-connect.ts";
 import { generateValidUUID } from "../../utils/uuid.ts";
 import { isInstanceOfUserValidForDbStorage } from "../validators/userValidator.ts";
 import { hashPassword } from "../../utils/cryptography.ts";
-import { User } from "../../interfaces/IUser.ts"; // Ajout de l'import pour le type User
+import type { User } from "../../interfaces/IUser.ts"; // Ajout de l'import pour le type User
 
 /**
  * Interroge la base de données pour récupérer des utilisateurs selon différents critères.

@@ -1,5 +1,5 @@
 // controllers/booksController.ts
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import {
   queryBooks,
   insertBook,
@@ -7,8 +7,8 @@ import {
   patchStatus,
   deleteBook,
 } from "../database/repositories/bookRepository.ts";
-import { Book } from "../interfaces/IBook.ts";
-import { RowDataPacket } from "mysql2";
+import type { Book } from "../interfaces/IBook.ts";
+import type { RowDataPacket } from "mysql2";
 
 /**
  * Contrôleur pour gérer les opérations CRUD sur les livres.

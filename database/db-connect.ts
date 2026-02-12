@@ -1,13 +1,14 @@
 // Gestion de la connexion à la base de données
-import { PoolConnection, createPool } from 'mysql2/promise';
+import mysql from 'mysql2/promise';
+import type { PoolConnection } from 'mysql2/promise';
 import { dbConfig } from "./config.ts";
 
 // Créer un pool de connexions
-const pool = createPool({
+const pool = mysql.createPool({
   host: dbConfig.host,
   user: dbConfig.user,
   password: dbConfig.password,
-  database: dbConfig.database, 
+  database: dbConfig.database,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0

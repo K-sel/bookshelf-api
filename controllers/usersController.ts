@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { User } from "../interfaces/IUser.ts";
+import type { Request, Response } from "express";
+import type { User } from "../interfaces/IUser.ts";
 import {
   deleteUser,
   insertUser,
@@ -7,7 +7,7 @@ import {
   queryUsers,
 } from "../database/repositories/userRepository.ts";
 import { verifyPassword } from "../utils/cryptography.ts";
-import { RowDataPacket } from "mysql2";
+import type { RowDataPacket } from "mysql2";
 
 /**
  * Objet contenant les méthodes de contrôleur pour la gestion des utilisateurs dans l'API.
